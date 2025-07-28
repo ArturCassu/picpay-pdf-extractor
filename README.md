@@ -11,12 +11,9 @@ fastapi-pdf-extractor
 │   ├── api
 │   │   └── routes.py         # API routes for uploading PDF and extracting data
 │   ├── services
-│   │   └── extractor.py       # Logic for extracting data from PDF files
-│   └── models
-│       └── transaction.py     # Data models for transaction data
+│       └── extractor.py       # Logic for extracting data from PDF files
 ├── requirements.txt           # Project dependencies
-├── README.md                  # Project documentation
-└── .gitignore                 # Files and directories to ignore in Git
+└── README.md                  # Project documentation
 ```
 
 ## Installation
@@ -49,14 +46,8 @@ fastapi-pdf-extractor
    uvicorn app.main:app --reload
    ```
 
-2. Access the API documentation at `http://127.0.0.1:8000/docs`.
-
-3. Use the `/upload` endpoint to upload a PDF file and trigger the extraction process.
+2. Use the `/upload` endpoint to upload a PDF file and trigger the extraction process.
 
 ## Contributing
 
 Contributions are welcome! Please open an issue or submit a pull request for any improvements or bug fixes.
-
-## License
-
-This project is licensed under the MIT License. See the LICENSE file for more details.
