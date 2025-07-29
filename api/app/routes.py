@@ -1,6 +1,6 @@
 from fastapi import APIRouter, File, UploadFile, Query
 from fastapi.responses import JSONResponse, StreamingResponse
-from app.services.extractor import PDFExtractor
+from app.extractor import PDFExtractor
 import pandas as pd
 import io
 
