@@ -1,0 +1,16 @@
+app/__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environments
+venv/
+.env/
+ENV/
+env/
+.venv/
+
+# VS Code settings (optional)
+.vscode/
+
+temp_**

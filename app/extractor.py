@@ -2,7 +2,7 @@ import pdfplumber
 import re
 from typing import Dict
 
-class PDFExtractor:
+class PDFExtractor:    
     def __init__(self, pdf_path: str):
         self.pdf_path = pdf_path
         self.pattern = re.compile(
@@ -15,6 +15,29 @@ class PDFExtractor:
         self.re_agencia = re.compile(r"Agência:\s*(\d+)")
         self.re_conta = re.compile(r"Conta:\s*(\d+)")
         self.re_cliente_desde = re.compile(r"Cliente desde:\s*(\d{2}/\d{2}/\d{4})")
+
+    def limpa_descricao(self, descricao: str) -> str:
+        # Remove unwanted footer/header patterns from description
+        unwanted_patterns = [
+            "PicPay Serviços S.A.",
+            "CNPJ:",
+            "Ouvidoria",
+            "Telefone:",
+            "Cliente desde:",
+            "MOVIMENTAÇÕES",
+            "Agência:",
+            "Conta:",
+            "CPF:",
+            "de 3",
+            "@",
+            "Dias úteis",
+            "Se você ficou com alguma dúvida",
+        ]
+        for pattern in unwanted_patterns:
+            idx = descricao.find(pattern)
+            if idx != -1:
+                descricao = descricao[:idx].strip()
+        return descricao
 
     def normaliza_valor(self, v: str) -> float:
         if v == "-" or not v:
@@ -40,6 +63,7 @@ class PDFExtractor:
         for match in self.pattern.finditer(texto_completo):
             data = match.group(1)
             descricao = match.group(2).replace("\n", " ").strip()
+            descricao = self.limpa_descricao(descricao)
             valor = match.group(3).strip()
             saldo = match.group(4).strip()
             saldo_sacavel = match.group(5).strip()
