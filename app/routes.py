@@ -10,6 +10,16 @@ router = APIRouter()
 # Simple in-memory cache: {username: data}
 user_cache = {}
 
+notifications = []
+@router.get("/notifications")
+async def get_notifications():
+    return JSONResponse(content=notifications, status_code=200)
+
+@router.post("/notifications")
+async def notifications(notification: dict):
+    notifications.append(notification)
+    return JSONResponse(content={"message": "Notification received"}, status_code=200)
+
 @router.post("/extract/")
 async def extract_pdf_data(file: UploadFile = File(...)):
     temp_path = f"temp_{file.filename}"
