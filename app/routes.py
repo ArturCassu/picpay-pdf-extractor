@@ -10,14 +10,14 @@ router = APIRouter()
 # Simple in-memory cache: {username: data}
 user_cache = {}
 
-notifications = []
+notifications_cache = []
 @router.get("/notifications")
 async def get_notifications():
-    return JSONResponse(content=notifications, status_code=200)
+    return JSONResponse(content=notifications_cache, status_code=200)
 
 @router.post("/notifications")
 async def notifications(notification: dict):
-    notifications.append(notification)
+    notifications_cache.append(notification)
     return JSONResponse(content={"message": "Notification received"}, status_code=200)
 
 @router.post("/extract/")
