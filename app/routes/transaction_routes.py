@@ -1,24 +1,14 @@
 from fastapi import APIRouter, File, UploadFile, Query
 from fastapi.responses import JSONResponse, StreamingResponse
-from app.extractor import PDFExtractor
+from app.service.extractor import PDFExtractor
 import pandas as pd
 import io
 import os
 
-router = APIRouter()
+router = APIRouter(tags=["Transactions"])
 
 # Simple in-memory cache: {username: data}
 user_cache = {}
-
-notifications_cache = []
-@router.get("/notifications")
-async def get_notifications():
-    return JSONResponse(content=notifications_cache, status_code=200)
-
-@router.post("/notifications")
-async def notifications(notification: dict):
-    notifications_cache.append(notification)
-    return JSONResponse(content={"message": "Notification received"}, status_code=200)
 
 @router.post("/extract/")
 async def extract_pdf_data(file: UploadFile = File(...)):
@@ -78,3 +68,14 @@ def clear_user_data(usuario: str = Query(...)):
         del user_cache[usuario]
         return JSONResponse(content={"message": "User data cleared"}, status_code=200)
     return JSONResponse(content={"error": "No data for this user"}, status_code=404)
+
+
+notifications_cache = []
+@router.get("/notifications")
+async def get_notifications():
+    return JSONResponse(content=notifications_cache, status_code=200)
+
+@router.post("/notifications")
+async def notifications(notification: dict):
+    notifications_cache.append(notification)
+    return JSONResponse(content={"message": "Notification received"}, status_code=200)
